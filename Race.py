@@ -3,6 +3,10 @@ import Race_objects
 from pygame.math import Vector2
 
 size = [1200, 700]
+
+BUTTON_Y = 4
+BUTTON_B = 1
+
 class RaceGame():
     def __init__(self):
         pg.init()
@@ -29,34 +33,16 @@ class RaceGame():
         self.all_borders.add(self.border_left)
         self.all_borders.add(self.border_top)
         self.all_borders.add(self.border_bot)
+
     def event_loop(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.done = True
-            elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_w:
-                    self.player.yspeed += -10
-                elif event.key == pg.K_s:
-                    self.player.yspeed += 10
-                elif event.key == pg.K_a:
-                    self.player.xspeed += -10
-                elif event.key == pg.K_d:
-                    self.player.xspeed += 10
-
-            elif event.type == pg.KEYUP:
-                if event.key == pg.K_w:
-                    self.player.yspeed = 0
-                elif event.key == pg.K_s:
-                    self.player.yspeed = 0
-                elif event.key == pg.K_a:
-                    self.player.xspeed = 0
-                elif event.key == pg.K_d:
-                    self.player.xspeed = 0
 
         x = self.joystick.get_axis(0)
         y = self.joystick.get_axis(1)
-        self.player.xspeed = x*10
-        self.player.yspeed = y*10
+        if self.joystick.get_button(BUTTON_Y):
+            self.player.accelerate()
 
     def update(self):
         for sprite in self.all_sprites:

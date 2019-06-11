@@ -1,7 +1,7 @@
 import pygame
 from pygame.math import Vector2
 
-pygame.init()
+VELOCITY_SCALE = 13
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, position):
@@ -13,14 +13,19 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.position.x
         self.rect.y = self.position.y
-        self.xspeed = 0
-        self.yspeed = 0
+        self.velocity = 0
+        self.direction = 0
 
     def update(self):
-        self.position.x += self.xspeed
-        self.position.y += self.yspeed
+        self.position.x += self.velocity
         self.rect.x = self.position.x
-        self.rect.y = self.position.y
+
+
+    def accelerate(self):
+        self.velocity += 1 / VELOCITY_SCALE
+
+    def brake(self):
+        self.velocity -= 1 / VELOCITY_SCALE
 
 class Border(pygame.sprite.Sprite):
     def __init__(self, position, width, height):
